@@ -67,5 +67,8 @@
       "node": true
     },
     "extends": "eslint:recommended"
+  },
+  "dependencies": {
+    "debug": "^2.2.0"
   }
 }
