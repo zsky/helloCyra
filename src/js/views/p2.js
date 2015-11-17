@@ -8,7 +8,7 @@ function initialize (next) {
 function willAppear (next, mm) {
     this.log('willAppear');
     setTimeout(function () {
-        console.log('oh kiss', mm);
+        console.log('oh', mm);
         next();
     })
 }
@@ -25,16 +25,9 @@ function willDisappear (next) {
 }
 
 
-// apis
-function setList (list) {
-    this.log('setList', list);
-}
-
-
 const p2 = new Cyra.Page({
     id: 'p2',
-    seq: { initialize, willAppear, didAppear, willDisappear },
-    methods: { setList }
+    seq: { initialize, willAppear, didAppear, willDisappear }
 })
 
 export default p2;

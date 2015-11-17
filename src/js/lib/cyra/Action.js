@@ -1,8 +1,14 @@
 class Action {
 
-  constructor(obj) {
-    this.id = obj.id;
-    this.path = obj.path;
+  log(...args) {
+    console.log.apply(console, ['Action::', this.id, ':'].concat(args));
+  }
+
+  constructor(id, fromPage, toPage) {
+    this.id = id;
+    this.fromPage = fromPage;
+    this.toPage = toPage;
+    this.log('constructed');
   }
 
 }

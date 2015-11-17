@@ -1,4 +1,9 @@
-import Cyra from './';
+const Config = {  // 内部执行逻辑的基本配置
+      URL_DATA_LIMIT: 1024,
+      DEFAULT_ROOT: 'body',
+      ENTER_SEQ: ['createElement', 'initialize', 'willAppear', 'appearing', 'didAppear'],
+      LEAVE_SEQ: ['willDisappear', 'disappearing']
+  };
 
 // helpers
 function sequence (seq, ctx) {
@@ -9,6 +14,12 @@ function sequence (seq, ctx) {
   }, noop);
 
   start();
+}
+
+function getHashData () {
+    let hash = window.location.hash.slice(1);
+    let hashData = hash.split('&&_data=');
+    return hashData[1];
 }
 
 
@@ -27,7 +38,6 @@ class Page {
     this.methods = obj.methods;
     this.prepareActions = obj.prepareActions;
 
-    this.__Cyra = Cyra;
     // init
     this.data = {};
 
@@ -35,10 +45,27 @@ class Page {
 
   }
 
-  gotoPage (path, data) {
+  gotoPage (path, data, throughUrl) {
     this.log('gotoPage', path);
-    this.ctx._transferData = data;
+    if(throughUrl) {
+      let dataString = JSON.stringify(data);
+      if(dataString.length > Config.URL_DATA_LIMIT) {
+        throw new Error('performAction data is too lage');
+      }
+      path += '&&_data=' + dataString;
+    } else {
+      this.ctx._transferData = data;
+    }
     window.location.hash = path;
+  }
+
+  performAction (actionId, data) {
+    let action = this.ctx.actions[actionId];
+    if(action.fromPage !== this) throw new Error('the current page is not the action fromPage');
+
+    let path = action.toPage.route.path;
+
+    this.gotoPage(path, data, true);
   }
 
   callMethods (actions) {
@@ -62,13 +89,13 @@ class Page {
 
   entering (transData) {
     this.log('entering', transData);
-    this.data.transData = transData;
-    this.execute(this.ctx.enterSeq);
+    this.data.transData = getHashData() || transData;
+    this.execute(Config.ENTER_SEQ);
   }
 
   leaving () {
     this.log('leaving');
-    this.execute(this.ctx.leaveSeq);
+    this.execute(Config.LEAVE_SEQ);
   }
 
   destroy () {

@@ -4,7 +4,9 @@ import Page from './Page';
 
 // help functions
 function getHash () {
-    return window.location.hash.slice(1);
+    let hash = window.location.hash.slice(1);
+    let hashData = hash.split('&&_data=');
+    return hashData[0];
 }
 
 function startRouting (ctx) {
@@ -52,11 +54,19 @@ function defineRoute (path, page) {
     this.log('defineRoute');
 
     page.ctx = this.ctx;
+    page.__CyraConfig = this.config;
 
     this.ctx.pages[page.id] = page;
     let route = new Route({ path, page });
-    //page.route = route;
+    page.route = route;
     this.ctx.routes.push(route);
+}
+
+function defineAction (id, fromPage, toPage) {
+    this.log('defineAction');
+
+    let action = new Action(id, fromPage, toPage);
+    this.ctx.actions[id] = action;
 }
 
 
@@ -74,18 +84,14 @@ function initApp (obj) {
 
 }
 
-function getCurrPage () {
-    return this.ctx.currentRoute && this.ctx.currentRoute.page;
-}
-
-function destroyPage (page) {
-    page.destroy();
-    delete this.ctx.pages[page.id];
-    for(let i = this.routes.length - 1; i > 0; i--) {
-        let route = this.routes[i];
-        if(route[i].page === page) this.routes.splice(i, 1);
-    }
-}
+// function destroyPage (page) {
+//     page.destroy();
+//     delete this.ctx.pages[page.id];
+//     for(let i = this.routes.length - 1; i > 0; i--) {
+//         let route = this.routes[i];
+//         if(route[i].page === page) this.routes.splice(i, 1);
+//     }
+// }
 
 
 const Cyra = {
@@ -94,23 +100,21 @@ const Cyra = {
       console.log.apply(console, ['Cyra:'].concat(args));
     },
 
+    TAG: 'start',
+
     Route: Route,
     Action: Action,
     Page: Page,
 
-    ctx: {  // root, rootElement, default, currentRoute
+    ctx: {  //ctx 动态生成的数据，便于page页访问 // root, rootElement, default, currentRoute
         pages: {},
         routes: [],
-        actions: [],
-        enterSeq: ['createElement', 'initialize', 'willAppear', 'appearing', 'didAppear'],
-        leaveSeq: ['willDisappear', 'disappearing', 'xhhohmygodwolegque']
+        actions: {},
     },
 
     defineRoute: defineRoute,
+    defineAction: defineAction,
     initApp: initApp,
-
-    getCurrPage: getCurrPage,
-    destroyPage: destroyPage
 
 }
 
