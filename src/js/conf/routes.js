@@ -1,10 +1,8 @@
-import Cyra from '../lib/cyra';
+import Cyra from 'cyra';
 
 // pages
-import p1 from '../views/p1';
-import p2 from '../views/p2';
-
-import '../lib/test';
+import p1 from '../view/p1';
+import p2 from '../view/p2';
 
 
 // routes

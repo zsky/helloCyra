@@ -69,6 +69,7 @@
     "extends": "eslint:recommended"
   },
   "dependencies": {
+    "cyra": "^0.1.1",
     "debug": "^2.2.0"
   }
 }

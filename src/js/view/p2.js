@@ -1,4 +1,4 @@
-import Cyra from '../lib/cyra/index.js';
+import Cyra from 'Cyra';
 
 function initialize (next) {
     this.log('initialize');
@@ -7,17 +7,15 @@ function initialize (next) {
 
 function willAppear (next, mm) {
     this.log('willAppear');
-    //this.gotoPage('/p2', mm);
-    this.log('after p2');
-    self = this;
     setTimeout(function () {
-        console.log('lo', mm);
-        self.performAction('a1', {mm: 'hs&xhh'});
+        console.log('oh', mm);
+        next();
     })
 }
 
 function didAppear (next) {
     this.log('didAppear');
+    if(this.lastPage) this.lastPage.callMethods([{ methodName: 'help', data: 'okk' }])
     next();
 }
 
@@ -27,9 +25,9 @@ function willDisappear (next) {
 }
 
 
-const p1 = new Cyra.Page({
-    id: 'p1',  // element id
+const p2 = new Cyra.Page({
+    id: 'p2',
     seq: { initialize, willAppear, didAppear, willDisappear }
 })
 
-export default p1;
+export default p2;
