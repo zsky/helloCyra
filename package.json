@@ -69,6 +69,6 @@
     "extends": "eslint:recommended"
   },
   "dependencies": {
-    "cyra": "^0.1.x"
+    "cyra": "^0.2.x"
   }
 }

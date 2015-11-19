@@ -1,15 +1,15 @@
 import Cyra from 'cyra';
 
 // pages
-import p1 from '../view/p1';
-import p2 from '../view/p2';
+import home from '../view/home';
+import result from '../view/result';
 
 
 // routes
-Cyra.defineRoute('/p1', p1);
-Cyra.defineRoute('/p2', p2);
+Cyra.defineRoute('home', home);
+Cyra.defineRoute('result', result);
 
 Cyra.initApp({
     root: 'body',
-    default: '/p1'
+    default: 'home'
 });
