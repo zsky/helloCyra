@@ -1,33 +1,31 @@
-import Cyra from 'Cyra';
+import  Cyra  from 'cyra';
 
-function initialize (next) {
-    this.log('initialize');
-    next('xhh');
-}
+export default Cyra.definePage({
 
-function willAppear (next) {
-    this.log('willAppear');
-    setTimeout(function () {
-        //console.log('oh', mm);
-        next();
-    }, 30);
-}
-
-function didAppear (next) {
-    this.log('didAppear');
-    if(this.lastPage) this.lastPage.callMethods([{ methodName: 'help', data: 'okk' }]);
-    next();
-}
-
-function willDisappear (next) {
-    this.log('willDisappear');
-    next();
-}
-
-
-const p2 = new Cyra.Page({
     id: 'p2',
-    seq: { initialize, willAppear, didAppear, willDisappear }
+
+    defineActions: () => {
+        let pageId = this.id;
+        this.gotTo1 = Cyra.defineAction('gotTo1', pageId, 'p1');
+    },
+
+    initialize: (next) => {
+        this.log('initialize');
+        next('pass on');
+    },
+    willAppear: (next) => {
+        this.log('willAppear');
+        next();
+    },
+    didAppear: (next) => {
+        this.log('didAppear');
+        next();
+    },
+
+    willDisappear: (next) => {
+        this.log('willDisappear');
+        next();
+    }
+
 });
 
-export default p2;
