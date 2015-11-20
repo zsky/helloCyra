@@ -22,16 +22,16 @@ export default Cyra.definePage({
     defineActions: function () {
         debug('defineActions');
         let pageId = this.id;
-        this.gotoResult = Cyra.defineAction('gotoResult', pageId, 'result');
+        this.actionGotoResult = Cyra.defineAction(pageId, 'result');
     },
     // 执行跳转动作前（performAction)会执行
     prepareForAction: function (action, destinationPagePerform) {
         debug('prepareForAction');
-        destinationPagePerform('setPrice', 5600);
+        destinationPagePerform('setData', 5600, 'HK');
     },
 
     initialize: function (next) {
-        debug('initialize');
+        debug('initialize', this._models.actions);
         ajaxData((data) => {
             next(data);
         })
@@ -43,7 +43,7 @@ export default Cyra.definePage({
         let btn = document.querySelector('.btn');
 
         btn.addEventListener("click", () => {
-            this.performAction(this.gotoResult, {gift: 'iphone'});
+            this.performAction(this.actionGotoResult, {gift: 'iphone', free: true, number: 4});
         });
         next();
     },

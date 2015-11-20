@@ -4,17 +4,19 @@ import debuger from 'debug';
 
 const debug = debuger('hello:result');
 
-function setPrice (price) {
-    debug('setPrice', price);
-    this.data.price = price;
-}
 
 export default Cyra.definePage({
 
     id: 'result',
 
+    defineActions: function () {
+        debug('defineActions');
+        let pageId = this.id;
+        this.actionGotoHome = Cyra.defineAction(pageId, 'home');
+    },
+
     initialize: function (next) {
-        debug('initialize');
+        debug('initialize', this.transferData);
         next();
     },
     willAppear: function (next) {
@@ -32,12 +34,12 @@ export default Cyra.definePage({
         next();
     },
 
-    setPrice: function (price) {
-        debug('setPrice');
+    setData: function (price, city) {
+        debug('setData');
         this.data.price = price;
+        this.data.city = city;
     },
 
-    methods: { setPrice }
 
 });
 
