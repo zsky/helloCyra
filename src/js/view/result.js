@@ -1,6 +1,11 @@
 import  Cyra  from 'cyra';
 
+import debuger from 'debug';
+
+const debug = debuger('hello:result');
+
 function setPrice (price) {
+    debug('setPrice', price);
     this.data.price = price;
 }
 
@@ -9,26 +14,26 @@ export default Cyra.definePage({
     id: 'result',
 
     initialize: function (next) {
-        this.log('initialize');
+        debug('initialize');
         next();
     },
     willAppear: function (next) {
-        this.log('willAppear');
+        debug('willAppear');
         this.container.innerHTML = this.transferData.gift + ':' + this.data.price;
         next();
     },
     didAppear: function (next) {
-        this.log('didAppear');
+        debug('didAppear');
         next();
     },
 
     willDisappear: function (next) {
-        this.log('willDisappear');
+        debug('willDisappear');
         next();
     },
 
     setPrice: function (price) {
-        this.log('setPrice');
+        debug('setPrice');
         this.data.price = price;
     },
 
