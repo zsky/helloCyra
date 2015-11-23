@@ -1,5 +1,6 @@
 node_modules
 dist
+jsconfig.json
 *.log
 .DS_Store
 mock

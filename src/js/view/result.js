@@ -1,5 +1,7 @@
 import  Cyra  from 'cyra';
 
+import tpl from '../../tpl/result';
+
 import debuger from 'debug';
 
 const debug = debuger('hello:result');
@@ -21,7 +23,11 @@ export default Cyra.definePage({
     },
     willAppear: function (next) {
         debug('willAppear');
-        this.container.innerHTML = this.transferData.gift + ':' + this.data.price;
+        let data = {
+            name: this.transferData.gift,
+            price: this.data.price
+        };
+        this.container.innerHTML = tpl(data);
         next();
     },
     didAppear: function (next) {
