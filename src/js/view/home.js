@@ -27,6 +27,11 @@ export default Cyra.definePage({
     // 执行跳转动作前（performAction)会执行
     prepareForAction: function (action, destinationPagePerform) {
         debug('prepareForAction');
+        let randomNum = Math.round(Math.random());
+        if(destinationPagePerform('getState', randomNum)) {
+            debug('prevented');
+            return true;
+        }
         destinationPagePerform('setData', 5600, 'HK');
     },
 

@@ -40,6 +40,13 @@ export default Cyra.definePage({
         next();
     },
 
+    getState: function (originState) {
+        debug('getState');
+        let randomNum = Math.round(Math.random());
+        debug('state', originState, randomNum);
+        return originState === randomNum;
+    },
+
     setData: function (price, city) {
         debug('setData');
         this.data.price = price;
